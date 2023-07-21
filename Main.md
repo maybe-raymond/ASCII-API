@@ -35,18 +35,79 @@ if the virual environment activated correctly, you should see (env) to the left 
 ### Installing Dependencies
 Now that we've got our virtual environment set up, we can look at the packages we're gonna use:
 
+* [Pillow](https://pillow.readthedocs.io/en/) is a fantastic Python package that allows us to process and manipulate images.
 * [FastAPI](https://fastapi.tiangolo.com/) is a web development framework that provides tools that make it easy for building, documenting and maintaining APIS
 * [NumPy](https://numpy.org/) is a library used for scientific computing which will come in handy manipulating images.
 * [unicorn](https://pypi.org/project/unicorn/) is a server that will help serve our API 
 
 ```
-pip install numpy
-pip install fastapi
-pip install "uvicorn[standard]"
+pip install numpy, pillow, fastapi , "uvicorn[standard]"
 ```
 
 __note__ : if pip does not work you can try `pip3` instead.
 
+### Downloading test images 
+we will also need some test images to help us convert and test our API. Please create a new folder in your project directory called Test images. After this we need to download the images from our [Github respository](https://github.com/maybe-raymond/ASCII-API) in the folder called Test images.
+
+
+## What the Devil is ASCII art ?
+ASCII art is just representing pictures as letters and symbols. The ASCII part of the name just represents the character set we are going to us to make our images.
+
+Here's an example of a simple cat in ASCII:
+```
+ /\_/\
+( o.o )
+ > ^ <
+```
+
+
+As we can see the image is just made up of letters and symbols. we are going to be doing something like this but we will be converting actual images to ASCII art text. 
+
+Now that we know what ASCII art is we can move to the coding section, but first neeed to answer an important question. 
+
+
 ## What really is a digitial image ?
-Computers interpert visual images in formats such as `.png, jpeg and webp` as a two dimensinal(2d) array or a matrix. Some image formats represent images as three arrays were the value of the inner array is another array of RGB vaules. The best way to understand all this is by doing and us visually seeing 
+Computers interpert visual images in formats such as `.png, jpeg and webp` as a two dimensional(2D) array or a matrix.These matrix's store the value of every pixel.Some image formats represent images as three dimensional(3D) arrays were the value of the inner array is another array of RGB vaules. The best way to understand all this is by doing. 
+
+Let's create a file called `image_test.py`. we will first import the Image class from the Pillow package and then we import numpy. We then open an image in out `Test images` folder using the Image class. The function np.asarray just converts an image into it's representation as an array. We then print this array.
+
+```
+from PIL import Image
+import numpy as np 
+
+
+with Image.open("Test images/Zero.jpg") as img: # opening image
+    data = np.asarray(img) # converting img to array
+    print(data)
+
+```
+
+When we run the file, we should some output which looks like this
+
+![2d Array output](2dArray.png)
+
+As we can see the image is just an array of array with numbers. These numbers will represent a values between 0 and 255. The image we converted is grayscale and so is not in the RGB format. so the images represent the brightness or intensity of the value, where 0 is black and 255 is white. if it was in RGB the values would become an an array and be in the format of (R, G, B) were each number represents the colour of the pixel. For example the colour of orange of a singular pixel will be (255, 165, 0) which represents the intensity of the colours Red, Green and Blue.
+
+## Let's convert our Image to ASCII
+As we learned above the ASCII art is just making an image out of letters and symbols. We also just learnt that an image is just a bunch of pixel values in an array of arrays. So to convert an iamge to ASCII we just need to convert each pixel value into some value that corresponds to an ASCII symbol
+
+Open up `image_test.py` and create a new function called `matchToASCII` that will match a pixel value to an ASCII value. it should look something like this
+
+
+```
+def matchToASCII(symbol):
+    chars = ["!", "#", "$", "%", "&"]
+    
+    if symbol < 50:
+        return chars[0]
+    elif symbol < 100 :
+        return chars[1]
+    elif symbol < 150:
+        return chars[2]
+    elif symbol < 200:
+        return chars[3]
+    else:
+        return chars[4]
+
+```
 
