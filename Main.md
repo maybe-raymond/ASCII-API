@@ -96,7 +96,7 @@ Open up `image_test.py` and create a new function called `matchToASCII` that wil
 
 ```
 def matchToASCII(symbol):
-    chars = ["!", "#", "$", "%", "&"]
+    chars = ["!", "#", "$", "%", "&"]           #the ASCII characters to be used 
     
     if symbol < 50:
         return chars[0]
@@ -110,4 +110,111 @@ def matchToASCII(symbol):
         return chars[4]
 
 ```
+The condtional statement in the code above just breaks up the pixel values in ranges of 50's and assigns a certain ASCII characcter to that particular value. We are gonna improve on this code later but this is just to show us how the logic is supposed to work.
 
+
+Now let's create the actual function that converts the array to ASCII art. We are gonna call this new function `convertToAscii`, the code should look something like this.
+
+```
+def convertToAscii(array):
+    string = ""
+    
+    for vec in array:
+        for i in vec:
+            string += matchToASCII(i)
+        string += "\n" 
+    
+    return string 
+```
+
+The code just loops through both arrays and converts every pixel value into it's equivalent ASCII character. We will come back to this code and add some modifications that will make it more robust. Now lets modify the code that opens the image so that it incorporates our new function.
+
+```
+with Image.open("Test images/Zero.jpg") as img:
+    data = np.asarray(img)
+    result = convertToAscii(data)
+    print(result)
+
+```
+
+Our code should now look something like this 
+
+```
+from PIL import Image
+import numpy as np 
+
+
+def matchToASCII(symbol):
+    chars = ["!", "#", "$", "%", "&"]           #the ASCII characters to be used 
+    
+
+    if symbol < 50:
+        return chars[0]
+    elif symbol < 100 :
+        return chars[1]
+    elif symbol < 150:
+        return chars[2]
+    elif symbol < 200:
+        return chars[3]
+    else:
+        return chars[4]
+
+
+def convertToAscii(array):
+    string = ""
+      
+    for vec in array:
+        for i in vec:
+            string += matchToASCII(i)
+        string += "\n" 
+    
+    return string 
+
+
+
+with Image.open("Test images/Zero.jpg") as img:
+    data = np.asarray(img)
+    result = convertToAscii(data)
+    print(result)
+
+```
+
+When you run the aboove code we should see some output that looks like the following.
+
+![zero output](zeroOutput.png)
+
+## Creating our API
+
+Now we'll get into creating our API in [FastAPI](https://fastapi.tiangolo.com/). We are going to be creating two API endpoints.
+
+`/upload`
+
+`/base64`
+
+### Setting up FastAPI
+
+First, we need to create two new files which will be called `__init__.py` and `app.py`. The `__init__.py` file is a special python directory and used to strucutre python code but for this tutorial it will remian empty. The `app.py` is were we will create our API.
+
+The code below is a basic FastAPI API
+
+```
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
+
+#an API endpoint 
+@app.get("/")
+def Hello():
+    return {"Hello": "World"}
+
+```
+
+To run the above code type in the command below 
+
+
+```
+uvicorn app:app --reload
+```
+you should get some output such the follows

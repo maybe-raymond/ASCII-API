@@ -3,8 +3,9 @@ import numpy as np
 
 
 def matchToASCII(symbol):
-    chars = ["!", "#", "$", "%", "&"]
+    chars = ["!", "#", "$", "%", "&"]           #the ASCII characters to be used 
     
+    # adding a div so it makes it easier to mode the program. 
     if symbol < 50:
         return chars[0]
     elif symbol < 100 :
@@ -17,8 +18,22 @@ def matchToASCII(symbol):
         return chars[4]
 
 
+def convertToAscii(array):
+    string = ""
+    
+    # helper function for 3d arrays  
+    for vec in array:
+        for i in vec:
+            string += matchToASCII(i)
+        string += "\n" 
+    
+    return string 
+
+
+
 
 
 with Image.open("Test images/Zero.jpg") as img:
     data = np.asarray(img)
-    print(data)
+    result = convertToAscii(data)
+    print(result)
