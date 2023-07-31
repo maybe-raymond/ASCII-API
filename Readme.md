@@ -335,3 +335,6 @@ When we run this code and go to `http://127.0.0.1:8000/docs` and try top upload 
 Don't be alarmed ! The FastAPI docs output for API request show all the non printable characters such as `\n` (newline) and so our image will not show propery as text for testing but the text image is fine.
 
 Now that's our ASCII art API!'
+
+## Futher Reading
+You can esaily extend this project by making a frontend in javavscript that takes advantage fo the API. Another possible route is to looking into libraries like [pyfiglet](https://pypi.org/project/pyfiglet/0.7/) that convert text to ASCII art.
